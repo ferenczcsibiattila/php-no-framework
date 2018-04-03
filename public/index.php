@@ -21,6 +21,9 @@ require_once __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'vendor'.DIREC
 	use \Relay\Relay;
 	use \Zend\Diactoros\ServerRequestFactory;
 
+	use \Zend\Diactoros\Response;
+	use \Zend\Diactoros\Response\SapiEmitter;
+
 	use function \DI\create; // functions.php
 	use function \DI\get; // functions.php
 
@@ -34,8 +37,11 @@ require_once __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'vendor'.DIREC
 	$containerBuilder->useAnnotations(FALSE);
 
 	$containerBuilder->addDefinitions(array(
-			\ExampleApp\HelloWorld::class => \DI\create(\ExampleApp\HelloWorld::class)->constructor(\DI\get('Foo')),
-			'Foo'                         => 'bar'
+			\ExampleApp\HelloWorld::class => \DI\create(\ExampleApp\HelloWorld::class)->constructor(\DI\get('Foo'), \DI\get('Response')),
+			'Foo'                         => 'bar',
+			'Response'                    => function() {
+				return new \Zend\Diactoros\Response();
+    		},
 		)
 	);
 
@@ -53,7 +59,11 @@ require_once __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'vendor'.DIREC
 // Diactoros - Let's get Relay ready to accept middleware.
 	$requestHandler = new \Relay\Relay($middlewareQueue);
 	// the request handler sends Request to the handler configured for that route in the routes definition
-	$requestHandler->handle(\Zend\Diactoros\ServerRequestFactory::fromGlobals());
+	$response = $requestHandler->handle(\Zend\Diactoros\ServerRequestFactory::fromGlobals());
+
+// Emitter Response to SAPI
+	$emitter = new SapiEmitter();
+	return $emitter->emit($response);
 
 $helloWorld = $container->get(\ExampleApp\HelloWorld::class);
 echo $helloWorld->announce();
