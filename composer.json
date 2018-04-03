@@ -1,0 +1,17 @@
+{
+    "name": "ferencz.attila/php-no-framework",
+    "description": "An example of a modern PHP application bootstrapped without a framework.",
+	"type": "project",
+    "authors": [
+        {
+            "name": "Ferencz-Csibi Attila",
+            "email": "ferencz.attila@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "ExampleApp\\": "src/"
+        }
+    }
+}

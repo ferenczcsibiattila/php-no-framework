@@ -1,1 +1,1 @@
-# php-no-framework
+https://kevinsmith.io/modern-php-without-a-framework
