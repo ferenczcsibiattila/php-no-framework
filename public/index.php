@@ -62,7 +62,7 @@ require_once __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'vendor'.DIREC
 	$response = $requestHandler->handle(\Zend\Diactoros\ServerRequestFactory::fromGlobals());
 
 // Emitter Response to SAPI
-	$emitter = new SapiEmitter();
+	$emitter = new \Zend\Diactoros\Response\SapiEmitter();
 	return $emitter->emit($response);
 
 $helloWorld = $container->get(\ExampleApp\HelloWorld::class);
