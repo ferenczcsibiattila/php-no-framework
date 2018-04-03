@@ -6,12 +6,18 @@ require_once __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'vendor'.DIREC
 // echo 'Hello, world!';
 $helloWorld = new \ExampleApp\HelloWorld;
 echo $helloWorld->announce();
+echo '<br />';
+
+use \DI\ContainerBuilder;
+use \ExampleApp\HelloWorld;
+use function DI\create; // functions.php
 
 // Dependency injection container
 //
 $containerBuilder = new \DI\ContainerBuilder;
-$containerBuilder->useAutowiring(false);
-$containerBuilder->useAnnotations(false);
+$containerBuilder->useAutowiring(FALSE);
+$containerBuilder->useAnnotations(FALSE);
+
 $containerBuilder->addDefinitions(array(
 		\ExampleApp\HelloWorld::class => \DI\create(\ExampleApp\HelloWorld::class)
 	)
