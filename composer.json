@@ -8,7 +8,9 @@
             "email": "ferencz.attila@gmail.com"
         }
     ],
-    "require": {},
+    "require": {
+        "php-di/php-di": "^6.0"
+    },
     "autoload": {
         "psr-4": {
             "ExampleApp\\": "src/"
